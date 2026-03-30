@@ -1,0 +1,39 @@
+package com.example.config_service.security;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
+    }
+
+    @Bean
+    UserDetailsService userDetailsService() {
+        UserDetails user = User.builder().username("user").password("password").build();
+        return new InMemoryUserDetailsManager(user);
+    }
+
+    @Bean
+    SecurityFilterChain webFilter(HttpSecurity http) {
+        return http
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(req -> req.anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults())
+                .build();
+    }
+}
