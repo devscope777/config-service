@@ -18,3 +18,9 @@ spring:
           timeout: 5
           force-pull: true
           clone-on-start: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: password
+    connection-timeout: 5s
