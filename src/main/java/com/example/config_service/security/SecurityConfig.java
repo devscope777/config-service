@@ -33,7 +33,7 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(
-                        req -> req.requestMatchers("/actuator/health").permitAll().anyRequest().authenticated())
+                        req -> req.requestMatchers("/actuator/**").permitAll().anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .build();
     }
