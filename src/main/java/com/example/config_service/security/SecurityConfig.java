@@ -1,5 +1,6 @@
 package com.example.config_service.security;
 
+import org.springframework.boot.security.autoconfigure.actuate.web.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -33,7 +34,8 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(
-                        req -> req.requestMatchers("/actuator/**").permitAll().anyRequest().authenticated())
+                        req -> req.requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll().anyRequest()
+                                .authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .build();
     }
